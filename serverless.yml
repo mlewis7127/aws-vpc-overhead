@@ -1,0 +1,60 @@
+service: aws-vpc-overhead
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  memorySize: 512
+  timeout: 6
+  stage: ${opt:stage, 'dev'}
+  region: eu-central-1
+  tracing:
+    apiGateway: true
+    lambda: true
+
+functions:
+  in-vpc:
+    handler: functions/in-vpc.handler
+    name: in-vpc-${self:provider.stage}
+    events:
+      - http:
+          path: /in-vpc
+          method: get
+    vpc:
+      securityGroupIds:
+        - "Fn::GetAtt": ServerlessSecurityGroup.GroupId
+      subnetIds:
+        - Ref: ServerlessPublicSubnetA
+
+  out-vpc:
+    handler: functions/out-vpc.handler
+    name: out-vpc-${self:provider.stage}
+    events:
+      - http:
+          path: /out-vpc
+          method: get
+
+
+resources:
+  Resources:
+
+    ServerlessVPC:
+      Type: AWS::EC2::VPC
+      Properties:
+        CidrBlock: "10.0.0.0/16"
+
+    ServerlessPublicSubnetA:
+      DependsOn: ServerlessVPC
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId:
+          Ref: ServerlessVPC
+        AvailabilityZone: ${self:provider.region}a
+        CidrBlock: "10.0.2.0/24"
+
+    ServerlessSecurityGroup:
+      DependsOn: ServerlessVPC
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: SecurityGroup for Serverless Functions
+        VpcId:
+          Ref: ServerlessVPC
