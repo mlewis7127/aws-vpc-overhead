@@ -5,7 +5,7 @@ module.exports.handler = async event => {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: 'Welcome from the in-vpc lambda!',
+        message: 'Welcome from this in-vpc lambda!',
         input: event,
       },
       null,
