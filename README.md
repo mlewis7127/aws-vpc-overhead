@@ -1,5 +1,5 @@
 # aws-vpc-overhead
-
+This is a quick proof of concept to see any performance optimisations made in cold start for lambdas assigned to a VPC. It is based on updates announced in the following [blog post] (https://aws.amazon.com/blogs/compute/announcing-improved-vpc-networking-for-aws-lambda-functions/)
 
 npm install -g artillery
 
