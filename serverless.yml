@@ -6,7 +6,7 @@ provider:
   memorySize: 512
   timeout: 6
   stage: ${opt:stage, 'dev'}
-  region: eu-central-1
+  region: ${opt:region, 'eu-central-1'}
   tracing:
     apiGateway: true
     lambda: true
