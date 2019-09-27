@@ -15,6 +15,11 @@ This can be installed using the following command:
 
 Once installed and the demo deployed, you can test using the following command:
 
-`artillery quick --count 1 -n 20 {URL}`
+`artillery quick --count 1 -n 1 {URL}`
 
 The `count` creates the specified number of "virtual users", each of which send the `-n` number of HTTP GET requests to the URL.
+
+## Test Lambda VPC Improvements
+To test the improvements that have been made, change to the region to one that has the improvements rolled out e.g. eu-central-1.
+
+It is often better to schedule more virtual users, to see the impact it has. Hopefully you will see some significant performance improvements, and far fewer ENI connections created.
